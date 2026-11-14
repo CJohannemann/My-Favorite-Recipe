@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Favorite Recipes</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <h1>My Favorite Recipes</h1>
+    <button id="addBtn" class="primary">+ Add recipe</button>
+  </header>
+
+  <main>
+    <section class="filters">
+      <input id="search" type="search" placeholder="Search title, ingredient, protein, tag…" autocomplete="off" />
+      <div class="chips" id="categoryChips">
+        <button class="chip active" data-category="">All</button>
+        <button class="chip" data-category="breakfast">Breakfast</button>
+        <button class="chip" data-category="lunch">Lunch</button>
+        <button class="chip" data-category="dinner">Dinner</button>
+      </div>
+      <div class="chips" id="proteinChips" aria-label="Filter by protein"></div>
+    </section>
+
+    <p id="empty" class="empty" hidden>No recipes yet. Click <strong>+ Add recipe</strong> and scan one in.</p>
+    <section id="list" class="grid"></section>
+  </main>
+
+  <!-- Add / edit -->
+  <dialog id="editor">
+    <form id="recipeForm" method="dialog">
+      <header class="dialog-head">
+        <h2 id="editorTitle">Add recipe</h2>
+        <button type="button" class="icon" data-close aria-label="Close">✕</button>
+      </header>
+
+      <fieldset class="scan" id="scanBox">
+        <legend>Scan with Gemini</legend>
+        <p class="hint">Upload a photo/screenshot/PDF of the recipe, paste the text, or both. Gemini fills in the form below, including the category and protein.</p>
+        <input type="file" id="scanFiles" accept="image/*,application/pdf" multiple />
+        <textarea id="scanText" rows="4" placeholder="…or paste recipe text here"></textarea>
+        <button type="button" id="scanBtn">Scan &amp; auto-fill</button>
+        <span id="scanStatus" class="status" role="status"></span>
+      </fieldset>
+
+      <div class="row">
+        <label class="grow">Title <input name="title" required /></label>
+        <label>Category
+          <select name="category">
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner" selected>Dinner</option>
+          </select>
+        </label>
+      </div>
+      <div class="row">
+        <label>Main protein <input name="primaryProtein" placeholder="chicken" /></label>
+        <label class="grow">All proteins <input name="proteins" placeholder="chicken, eggs (comma separated)" /></label>
+      </div>
+      <div class="row">
+        <label>Servings <input name="servings" /></label>
+        <label>Total time <input name="totalTime" /></label>
+        <label class="grow">Tags <input name="tags" placeholder="mexican, quick" /></label>
+      </div>
+      <label>Ingredients <small>(one per line)</small><textarea name="ingredients" rows="7"></textarea></label>
+      <label>Instructions <small>(one step per line)</small><textarea name="instructions" rows="7"></textarea></label>
+      <label>Notes <textarea name="notes" rows="2"></textarea></label>
+
+      <footer class="dialog-foot">
+        <button type="button" data-close>Cancel</button>
+        <button type="submit" class="primary" id="saveBtn">Save recipe</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- View -->
+  <dialog id="viewer">
+    <article id="viewBody"></article>
+    <footer class="dialog-foot">
+      <button type="button" id="deleteBtn" class="danger">Delete</button>
+      <span class="spacer"></span>
+      <button type="button" data-close>Close</button>
+      <button type="button" id="editBtn" class="primary">Edit</button>
+    </footer>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

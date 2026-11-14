@@ -1,0 +1,27 @@
+{
+  "name": "my-favorite-recipe",
+  "version": "1.0.0",
+  "description": "Recipe box that uses Google Gemini to scan recipes and auto-categorize them",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "dev": "node --watch --env-file-if-exists=.env server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CJohannemann/My-Favorite-Recipe.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CJohannemann/My-Favorite-Recipe/issues"
+  },
+  "homepage": "https://github.com/CJohannemann/My-Favorite-Recipe#readme",
+  "dependencies": {
+    "@google/genai": "^3.3.0",
+    "express": "^5.3.0",
+    "multer": "^2.5.0"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  }
+}
