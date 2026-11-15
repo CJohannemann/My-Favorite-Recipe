@@ -1,0 +1,30 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env            # GEMINI_API_KEY, APP_PASSWORD, ... (never committed)
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
+      TRUST_PROXY: 1          # one proxy (the tunnel or Caddy) sits in front
+      APP_PASSWORD: ${APP_PASSWORD:?Set APP_PASSWORD in .env before exposing this to the internet}
+    volumes:
+      - recipe-data:/app/data
+    ports:
+      # Only reachable from the server itself; the tunnel/proxy provides internet access.
+      # Change to "3000:3000" to also open it to your home network.
+      - "127.0.0.1:3000:3000"
+
+  # Optional: Cloudflare Tunnel. Gives you https://recipes.yourdomain.com with
+  # no router port forwarding. Start with:  docker compose --profile tunnel up -d
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    profiles: [tunnel]
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}  # set in .env (see DEPLOY.md)
+    depends_on: [app]
+
+volumes:
+  recipe-data:

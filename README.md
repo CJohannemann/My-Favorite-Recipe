@@ -38,14 +38,25 @@ GEMINI_API_KEY=your-key-here
 | ---------------- | ------------------ | ------------------------------- |
 | `GEMINI_API_KEY` | (required to scan) | Your Google Gemini API key      |
 | `GEMINI_MODEL`   | `gemini-2.5-flash` | Which Gemini model reads recipes |
+| `APP_PASSWORD`   | (none)             | Site password. Required for anything other than this computer |
+| `APP_USER`       | `cook`             | Username for the sign-in prompt |
+| `SCANS_PER_HOUR` | `30`               | Gemini scan limit per visitor   |
 | `PORT`           | `3000`             | Web server port                 |
 | `DATA_DIR`       | `./data`           | Where `recipes.json` is stored  |
+
+## Running it on a home server
+
+See **[DEPLOY.md](DEPLOY.md)** for Docker, password protection, and making it reachable from the
+internet (Cloudflare Tunnel, Tailscale, or your own reverse proxy).
+
+Without `APP_PASSWORD`, `npm start` only listens on `127.0.0.1`, so other devices can't reach it.
 
 ## How it works
 
 - `server.js`: Express server and REST API
 - `lib/gemini.js`: sends the photo/text to Gemini with a JSON schema, so the reply always has a `category` (one of breakfast/lunch/dinner) and a `primaryProtein`. Protein names are normalized (lowercase, common names like `chicken`, `beef`, `salmon`) so search and filtering stay consistent.
 - `lib/store.js`: saves recipes to `data/recipes.json`
+- `lib/security.js`: password prompt, rate limits, security headers
 - `public/`: the web page (plain HTML/CSS/JS, no build step)
 
 ### API
