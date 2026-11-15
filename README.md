@@ -21,7 +21,18 @@ npm start                 # http://localhost:3000
 ```
 
 Get a free Gemini API key at <https://aistudio.google.com/apikey>.
-The key stays on the server and is never sent to the browser.
+
+### Where the key lives
+
+Your key goes in the **`.env` file in the project folder** (next to `package.json`):
+
+```
+GEMINI_API_KEY=your-key-here
+```
+
+- `.env` is listed in `.gitignore`, so it is **never committed or pushed to GitHub**. This repo is public, so that matters: a key pushed here could be copied by anyone.
+- `npm start` reads `.env` automatically. There is no separate server to set up.
+- The key is used only by the app's own Node process on your computer and is never sent to the web page.
 
 | Variable         | Default            | Purpose                         |
 | ---------------- | ------------------ | ------------------------------- |
